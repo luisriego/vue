@@ -1,4 +1,6 @@
 {
+    "name": "luisriego/vue",
+    "description": "A test program with API",
     "type": "project",
     "license": "proprietary",
     "require": {

@@ -1,0 +1,73 @@
+version: '3.5'
+
+services:
+  vue-web:
+    container_name: vue-web
+    build:
+      context: ./docker/nginx
+      args:
+        UID: $U_ID
+    ports:
+      - 300:80
+    volumes:
+      - ./public:/appdata/www/public
+    networks:
+      - vue-network
+    depends_on:
+      - vue-be
+
+  node:
+    image: node:13
+    container_name: vue-node
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/app
+    working_dir: /app
+    command: tail -f /dev/null
+    networks:
+      - vue-network
+
+  vue-be:
+    container_name: vue-be
+    build:
+      context: ./docker/php
+      args:
+        UID: $U_ID
+    environment:
+      PHP_IDE_CONFIG: serverName=Docker
+      PHP_XDEBUG_ENABLED: 1
+      XDEBUG_CONFIG: remote_host=172.17.0.1 remote_port=9005 # Linux users
+    #      XDEBUG_CONFIG: remote_host=host.docker.internal remote_port=9005 # MacOS users
+    volumes:
+      - ./:/appdata/www
+      - ./docker/php/xdebug-linux.ini:/usr/local/etc/php/conf.d/xdebug.ini # Linux users
+      #    - ./docker/php/xdebug-macos.ini:/usr/local/etc/php/conf.d/xdebug.ini # MacOS users
+      - ~/.ssh/id_rsa:/home/appuser/.ssh/id_rsa
+    networks:
+      - vue-network
+    depends_on:
+      - vue-db
+
+  vue-db:
+    container_name: vue-db
+    image: mysql:5.7
+    ports:
+      - 40000:3306
+    environment:
+      MYSQL_DATABASE: docker_symfony_database
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: root
+    command: mysqld --sql_mode="STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION"
+    volumes:
+      - vue-database-data:/var/lib/mysql
+    networks:
+      - vue-network
+
+volumes:
+  vue-database-data:
+
+networks:
+  vue-network:
+    external: true
