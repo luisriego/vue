@@ -82,25 +82,25 @@ class AppFixtures extends Fixture
             'name' => 'Floppy disk',
             'description' => 'With 1.44 mb of storage space enjoy your favorite thumbnail photo on the go!',
             'image' => 'floppy-disc.png',
-            'category' => 'office_supplies'
+            'category' => 'office_supplies',
         ];
         yield [
             'name' => 'Blank CD\'s',
             'description' => 'Want to share your favorite tunes with a coworker? Then this set of blank cd\'s is for you! Load up your favorite motivational mixtape and share! (cd-rom drive not included)',
             'image' => 'blank-cds.png',
-            'category' => 'office_supplies'
+            'category' => 'office_supplies',
         ];
         yield [
             'name' => 'Disappearing Ink Pens',
             'description' => 'Write your daily to do list and watch it disappear on its own with our disappearing ink pen',
             'image' => 'pen.png',
-            'category' => 'office_supplies'
+            'category' => 'office_supplies',
         ];
         yield [
             'name' => 'Papers',
             'description' => 'Fresh stack of newspapers from the mid-90\'s for your enjoyment.',
             'image' => 'papers.png',
-            'category' => 'office_supplies'
+            'category' => 'office_supplies',
         ];
 
         /* FURNITURE */
