@@ -94,3 +94,10 @@ And as always, thanks so much for your support and letting
 us do what we love!
 
 <3 Your friends at SymfonyCasts
+
+
+## Reset C460FW
+the correct sequence for C460 FW is 
+Menu, # , 1,9,3,4,Menu 
+then data setup 
+then clear count
