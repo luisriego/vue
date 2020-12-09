@@ -7,10 +7,13 @@
                     :categories="categories"
                 />
             </div>
+            <div class="col-9">
+                <search-bar-component @search-products="onSearchProducts" />
+            </div>
         </div>
 
         <product-list
-            :products="products"
+            :products="filteredProducts"
             :loading="loading"
         />
 
@@ -25,6 +28,7 @@ import { fetchProducts } from '@/services/products-service';
 import LegendComponent from '@/components/legend';
 import ProductList from '@/components/product-list';
 import TitleComponent from '@/components/title';
+import SearchBarComponent from '@/components/search-bar';
 
 export default {
     name: 'Catalog',
@@ -32,6 +36,7 @@ export default {
         LegendComponent,
         ProductList,
         TitleComponent,
+        SearchBarComponent,
     },
     props: {
         currentCategoryId: {
@@ -46,9 +51,20 @@ export default {
     data() {
         return {
             products: [],
+            searchTerm: '',
             loading: false,
             legend: 'Shipping takes 10-13 weeks, and products probably won\'t work',
         };
+    },
+    computed: {
+        filteredProducts() {
+            if (!this.searchTerm) {
+                return this.products;
+            }
+            return this.products.filter((product) => (
+                product.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+            ));
+        },
     },
     async created() {
         this.loading = true;
@@ -65,6 +81,11 @@ export default {
         }
 
         this.products = response.data['hydra:member'];
+    },
+    methods: {
+        onSearchProducts(event) {
+            this.searchTerm = event.term;
+        },
     },
 };
 </script>
